@@ -20,9 +20,12 @@
   },
   "homepage": "https://github.com/vlad-prog93/movies-explorer-api#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "mongoose": "^6.5.4",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "eslint": "^8.23.0",
