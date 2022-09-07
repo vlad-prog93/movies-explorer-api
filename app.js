@@ -8,7 +8,7 @@ const routerUsers = require('./router/users');
 const routerMovies = require('./router/movies');
 const { createUser, login } = require('./controllers/users');
 const { validationSignUp, validationSignIn } = require('./middlewares/validation');
-const errorHandler = require('./middlewares/errorHandler')
+const errorHandler = require('./middlewares/errorHandler');
 const checkAuth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const ApiErrors = require('./utils/apiErrors');
@@ -35,7 +35,6 @@ const start = async () => {
     app.use(errorLogger);
     app.use(errors());
     app.use(errorHandler);
-
   } catch (err) {
     console.log(err);
   }

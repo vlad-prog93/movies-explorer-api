@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const ApiErrors = require('../utils/apiErrors');
+
 const { SECRET_KEY, NODE_ENV } = process.env;
 
 const checkAuth = async (req, res, next) => {
@@ -14,7 +15,7 @@ const checkAuth = async (req, res, next) => {
       _id: decoded._id,
     };
     next();
-  } catch(err) {
+  } catch (err) {
     next(ApiErrors.Unauthorized('У вас нет доступа'));
   }
 };

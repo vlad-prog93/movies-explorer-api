@@ -27,7 +27,7 @@ const userMovie = new Schema({
     required: true,
     validate: {
       validator: (v) => validator.isURL(v),
-    }
+    },
   },
   trailerLink: {
     type: String,
