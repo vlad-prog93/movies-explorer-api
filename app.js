@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const { errors } = require('celebrate');
+const helmet = require("helmet");
 
 const routerUsers = require('./router/users');
 const routerMovies = require('./router/movies');
@@ -24,6 +25,7 @@ const start = async () => {
     });
     app.use(express.json());
     app.use(cors());
+    app.use(helmet());
     app.use(requestLogger);
     app.post('/signin', validationSignIn, login);
     app.post('/signup', validationSignUp, createUser);
