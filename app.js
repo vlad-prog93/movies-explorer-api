@@ -12,14 +12,13 @@ const errorHandler = require('./middlewares/errorHandler');
 const checkAuth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const ApiErrors = require('./utils/apiErrors');
+const { PAGE_NOT_FOUND, MONGO_URL_AND_PORT } = require('./utils/const');
 
 const app = express();
 
-const MONGO_URL_AND_PORT = process.env.MONGO_URL_AND_PORT || 'localhost:27017';
-
 const start = async () => {
   try {
-    mongoose.connect(`mongodb://${MONGO_URL_AND_PORT}/bitfilmsdb`, {
+    mongoose.connect(`mongodb://${MONGO_URL_AND_PORT}`, {
       useNewUrlParser: true,
       useUnifiedTopology: false,
     });
@@ -31,7 +30,7 @@ const start = async () => {
     app.use(checkAuth);
     app.use('/users', routerUsers);
     app.use('/movies', routerMovies);
-    app.use((req, res, next) => next(ApiErrors.NotFound('Страница не найдена')));
+    app.use((req, res, next) => next(ApiErrors.NotFound(PAGE_NOT_FOUND)));
     app.use(errorLogger);
     app.use(errors());
     app.use(errorHandler);
