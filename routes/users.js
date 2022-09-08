@@ -1,9 +1,10 @@
-const express = require('express');
+const router = require('express').Router();
 
-const router = express.Router();
-
-const { getUser, updateUser } = require('../controllers/users');
+// middlewares
 const { validationUpdateUser } = require('../middlewares/validation');
+
+// controllers
+const { getUser, updateUser } = require('../controllers/users');
 
 router.get('/me', getUser);
 router.patch('/me', validationUpdateUser, updateUser);

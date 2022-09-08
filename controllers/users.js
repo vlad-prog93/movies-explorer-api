@@ -1,8 +1,11 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const ApiErrors = require('../utils/apiErrors');
+// models
 const User = require('../models/user');
+
+// utils
+const ApiErrors = require('../utils/apiErrors');
 const {
   USER_ALREADY_EXIST,
   SEND_NOT_VALID_DATA,
@@ -10,11 +13,13 @@ const {
   WRONG_LOGIN_OR_PASSWORD,
   WRONG_ID,
   USER_NOT_FOUND,
+  DUBLICATE_MONGOOSE_ERROR_CODE,
+  SOLT_ROUND,
+  CAST_ERROR,
+  VALIDATION_ERROR,
 } = require('../utils/const');
 
 const { SECRET_KEY, NODE_ENV } = process.env;
-const DUBLICATE_MONGOOSE_ERROR_CODE = 11000;
-const SOLT_ROUND = 10;
 
 const createUser = async (req, res, next) => {
   try {
@@ -28,7 +33,7 @@ const createUser = async (req, res, next) => {
     await user.save();
     return res.status(201).json({ _id: user._id });
   } catch (err) {
-    if (err.name === 'ValidationError') {
+    if (err.name === VALIDATION_ERROR) {
       return next(ApiErrors.BadRequest(SEND_NOT_VALID_DATA));
     }
     if (err.code === DUBLICATE_MONGOOSE_ERROR_CODE) {
@@ -65,7 +70,7 @@ const getUser = async (req, res, next) => {
     }
     return res.send(user);
   } catch (err) {
-    if (err.name === 'CastError') {
+    if (err.name === CAST_ERROR) {
       return next(ApiErrors.BadRequest(WRONG_ID));
     }
     return next(ApiErrors.Internal(ERROR_DEFAULT));
@@ -80,10 +85,10 @@ const updateUser = async (req, res, next) => {
       .findByIdAndUpdate(id, { email, name }, { runValidators: true, new: true });
     return res.send(user);
   } catch (err) {
-    if (err.name === 'CastError') {
+    if (err.name === CAST_ERROR) {
       return next(ApiErrors.BadRequest(WRONG_ID));
     }
-    if (err.name === 'ValidationError') {
+    if (err.name === VALIDATION_ERROR) {
       return next(ApiErrors.BadRequest(SEND_NOT_VALID_DATA));
     }
     return next(ApiErrors.Internal(ERROR_DEFAULT));

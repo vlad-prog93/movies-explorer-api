@@ -1,11 +1,13 @@
-const express = require('express');
-const { getMovies, createMovie, deleteMovie } = require('../controllers/movies');
+const router = require('express').Router();
+
+// middlewares
 const {
   validationCreateMovie,
   validationDeleteMovie,
 } = require('../middlewares/validation');
 
-const router = express.Router();
+// controllers
+const { getMovies, createMovie, deleteMovie } = require('../controllers/movies');
 
 router.get('/', getMovies);
 router.post('/', validationCreateMovie, createMovie);

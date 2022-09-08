@@ -1,11 +1,15 @@
+// models
 const Movie = require('../models/movie');
+
+// utils
 const ApiErrors = require('../utils/apiErrors');
 const {
   ERROR_DEFAULT,
   SEND_NOT_VALID_DATA,
   FILM_NOT_FOUND,
   NOT_ALLOWED_DELETE_FILM,
-
+  CAST_ERROR,
+  VALIDATION_ERROR,
 } = require('../utils/const');
 
 const getMovies = async (req, res, next) => {
@@ -24,7 +28,7 @@ const createMovie = async (req, res, next) => {
     const movie = await Movie.create({ ...req.body, owner });
     return res.status(201).json({ movie });
   } catch (err) {
-    if (err.name === 'CastError' || err.name === 'ValidationError') {
+    if (err.name === CAST_ERROR || err.name === VALIDATION_ERROR) {
       return ApiErrors.BadRequest(SEND_NOT_VALID_DATA);
     }
     return next(ApiErrors.Internal(ERROR_DEFAULT));
@@ -43,7 +47,7 @@ const deleteMovie = async (req, res, next) => {
     await Movie.findByIdAndRemove(req.params._id);
     return res.json(req.params);
   } catch (err) {
-    if (err.name === 'CastError') {
+    if (err.name === CAST_ERROR) {
       return next(ApiErrors.BadRequest(SEND_NOT_VALID_DATA));
     }
     return next(ApiErrors.Internal(ERROR_DEFAULT));

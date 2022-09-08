@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+// utils
 const ApiErrors = require('../utils/apiErrors');
 const { UNAUTHORIZED } = require('../utils/const');
 

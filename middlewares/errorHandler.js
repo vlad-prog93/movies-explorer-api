@@ -1,3 +1,4 @@
+// utils
 const { ERROR_DEFAULT } = require('../utils/const');
 
 const errorHandler = (err, req, res, next) => {
