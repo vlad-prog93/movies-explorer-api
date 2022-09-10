@@ -30,7 +30,7 @@ const start = async () => {
     app.use(helmet());
     app.use(limiter);
     app.use(requestLogger);
-    app.use(routes);
+    app.use('/api', routes);
     app.use((req, res, next) => next(ApiErrors.NotFound(PAGE_NOT_FOUND)));
     app.use(errorLogger);
     app.use(errors());
