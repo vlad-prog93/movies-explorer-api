@@ -1,7 +1,7 @@
 module.exports = {
 
   // db
-  MONGO_URL_AND_PORT: process.env.MONGO_URL_AND_PORT || 'localhost:27017/moviesdb',
+  MONGO_URL_AND_PORT: process.env.MONGO_URL_AND_PORT || '127.0.0.1:27017/moviesdb',
 
   // message error
   PAGE_NOT_FOUND: 'Страница не найдена',
