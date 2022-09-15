@@ -28,8 +28,8 @@ const start = async () => {
     app.use(express.json());
     app.use(cors());
     app.use(helmet());
-    app.use(limiter);
     app.use(requestLogger);
+    app.use(limiter);
     app.use('/api', routes);
     app.use((req, res, next) => next(ApiErrors.NotFound(PAGE_NOT_FOUND)));
     app.use(errorLogger);

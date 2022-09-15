@@ -13,7 +13,7 @@ module.exports = {
   WRONG_LOGIN_OR_PASSWORD: 'Неправильные логин или пароль',
   USER_NOT_FOUND: 'Фильм по указанному id не найден',
   WRONG_ID: 'Введен некорректный id',
-  UNAUTHORIZED: 'У вас нет доступа',
+  UNAUTHORIZED: 'Необходима авторизация',
 
   // type error
   CAST_ERROR: 'CastError',

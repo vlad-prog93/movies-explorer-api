@@ -25,11 +25,13 @@ const getMovies = async (req, res, next) => {
 const createMovie = async (req, res, next) => {
   try {
     const owner = req.user._id;
-    const movie = await Movie.create({ ...req.body, owner });
+    const movie = new Movie({ ...req.body, owner });
+    movie.save();
     return res.status(201).json({ movie });
   } catch (err) {
-    if (err.name === CAST_ERROR || err.name === VALIDATION_ERROR) {
-      return ApiErrors.BadRequest(SEND_NOT_VALID_DATA);
+    if (err.name === VALIDATION_ERROR
+      || err.name === CAST_ERROR) {
+      return next(ApiErrors.BadRequest(SEND_NOT_VALID_DATA));
     }
     return next(ApiErrors.Internal(ERROR_DEFAULT));
   }
@@ -41,8 +43,8 @@ const deleteMovie = async (req, res, next) => {
     if (!movie) {
       return next(ApiErrors.NotFound(FILM_NOT_FOUND));
     }
-    if (!(movie.owner.includes(req.user._id))) {
-      return next(new ApiErrors(403, NOT_ALLOWED_DELETE_FILM));
+    if (!(movie.owner !== req.user._id)) {
+      return next(ApiErrors.ForBidden(NOT_ALLOWED_DELETE_FILM));
     }
     await Movie.findByIdAndRemove(req.params._id);
     return res.json(req.params);

@@ -30,7 +30,7 @@ const createUser = async (req, res, next) => {
     }
     const hashPassword = bcrypt.hashSync(password, SOLT_ROUND);
     const user = new User({ email, password: hashPassword, name });
-    await user.save();
+    user.save();
     return res.status(201).json({ _id: user._id });
   } catch (err) {
     if (err.name === VALIDATION_ERROR) {
@@ -70,9 +70,6 @@ const getUser = async (req, res, next) => {
     }
     return res.send(user);
   } catch (err) {
-    if (err.name === CAST_ERROR) {
-      return next(ApiErrors.BadRequest(WRONG_ID));
-    }
     return next(ApiErrors.Internal(ERROR_DEFAULT));
   }
 };
@@ -81,6 +78,12 @@ const updateUser = async (req, res, next) => {
   try {
     const id = req.user._id;
     const { email, name } = req.body;
+    const condidates = await User.find({ email });
+    condidates.forEach((element) => {
+      if (!element._id.equals(id)) {
+        next(ApiErrors.Conflict('С таким email уже существует пользователь'));
+      }
+    });
     const user = await User
       .findByIdAndUpdate(id, { email, name }, { runValidators: true, new: true });
     return res.send(user);

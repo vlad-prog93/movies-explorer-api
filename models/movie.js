@@ -44,11 +44,11 @@ const userMovie = new Schema({
     },
   },
   owner: {
-    type: [Schema.Types.ObjectId],
+    type: Schema.Types.ObjectId,
     required: true,
   },
   movieId: {
-    type: [Schema.Types.ObjectId],
+    type: Number,
     required: true,
   },
   nameRU: {

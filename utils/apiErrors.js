@@ -12,6 +12,10 @@ class ApiErrors extends Error {
     return new ApiErrors(401, msg);
   }
 
+  static ForBidden(msg) {
+    return new ApiErrors(403, msg);
+  }
+
   static NotFound(msg) {
     return new ApiErrors(404, msg);
   }
